@@ -1,0 +1,11 @@
+[phases.build]
+dependsOn = ['install']
+
+[phases.install]
+cmds = ['npm ci']
+
+[phases.build.cmds]
+cmds = ['npm run build']
+
+[start]
+cmd = 'npm start
