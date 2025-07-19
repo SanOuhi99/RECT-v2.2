@@ -1,5 +1,5 @@
 import { getSession } from 'next-auth/react';
-import api from '../../../lib/api';
+import api from '../../lib/api';
 
 export default async function handler(req, res) {
   const session = await getSession({ req });
