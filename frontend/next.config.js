@@ -1,8 +1,11 @@
 /** @type {import('next').NextConfig} */
 module.exports = {
   reactStrictMode: true,
+  productionBrowserSourceMaps: false,
+  optimizeFonts: true,
+  compress: true,
   env: {
-    NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000',
+    NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL || 'http://rect.up.railway.app:8080',
   },
   async rewrites() {
     return [
@@ -13,6 +16,6 @@ module.exports = {
     ]
   },
   images: {
-    domains: ['localhost'],
+    domains: ['rect.up.railway.app'],
   },
 }
