@@ -1,22 +1,26 @@
 {
-  "builds": [
-    {
-      "src": "backend/",
-      "use": "@railway/plugin-python"
+  "build": {
+    "backend": {
+      "steps": [
+        "pip install -r requirements.txt",
+        "alembic upgrade head"
+      ],
+      "startCommand": "uvicorn app.main:app --host 0.0.0.0 --port $PORT"
     },
-    {
-      "src": "frontend/",
-      "use": "@railway/plugin-node"
-    }
-  ],
-  "deployments": [
-    {
-      "name": "Backend",
-      "command": "uvicorn app.main:app --host 0.0.0.0 --port ${PORT}"
+    "frontend": {
+      "steps": [
+        "npm install",
+        "npm run build"
+      ],
+      "startCommand": "npm run start"
     },
-    {
-      "name": "Frontend",
-      "command": "npm run build && npm run start"
+    "worker": {
+      "startCommand": "celery -A worker worker --loglevel=info"
     }
-  ]
+  },
+  "deploy": {
+    "restartPolicy": {
+      "maxRetries": 3
+    }
+  }
 }
