@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
-import { useAuth } from '../../../contexts/AuthContext';
-import { fetcher } from '../../../lib/api';
-import Header from '../../../components/layout/Header';
-import Footer from '../../../components/layout/Footer';
+import { useAuth } from '../../contexts/AuthContext';
+import { fetcher } from '../../lib/api';
+import Header from '../../components/layout/Header';
+import Footer from '../../components/layout/Footer';
 
 export default function Settings() {
   const { user } = useAuth();
