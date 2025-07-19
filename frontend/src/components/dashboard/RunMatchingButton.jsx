@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useSWRConfig } from 'swr';
-import { CheckCircleIcon, ExclamationCircleIcon, RefreshIcon } from '@heroicons/react/24/outline'
+import { CheckCircleIcon, ExclamationCircleIcon, ArrowPathIcon } from '@heroicons/react/24/outline'
 import { useAuth } from '../../contexts/AuthContext';
 
 export default function RunMatchingButton() {
