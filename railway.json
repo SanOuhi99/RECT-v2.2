@@ -1,6 +1,7 @@
 {
   "build": {
     "backend": {
+      "root": "backend",
       "steps": [
         "pip install -r requirements.txt",
         "alembic upgrade head"
