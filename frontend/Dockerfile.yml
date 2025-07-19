@@ -1,19 +1,19 @@
-FROM node:18-alpine
-
+# Build stage
+FROM node:18-alpine AS builder
 WORKDIR /app
-
-# Copy package files
 COPY package*.json ./
-
-# Install dependencies
-RUN npm ci --only=production
-
-# Copy source code
+RUN npm ci
 COPY . .
+RUN npm run build
 
-
-# Expose port
+# Production stage
+FROM node:18-alpine AS runner
+WORKDIR /app
+ENV NODE_ENV production
+COPY package*.json ./
+RUN npm ci --only=production && npm cache clean --force
+COPY --from=builder /app/.next ./.next
+COPY --from=builder /app/public ./public
+COPY --from=builder /app/next.config.js ./next.config.js 2>/dev/null || true
 EXPOSE $PORT
-
-# Start command
 CMD ["npm", "start"]
