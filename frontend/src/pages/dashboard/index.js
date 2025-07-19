@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import Head from 'next/head';
 import useSWR from 'swr';
-import { useAuth } from '../../../contexts/AuthContext';
-import Header from '../../../components/layout/Header';
-import Footer from '../../../components/layout/Footer';
-import StatsCard from '../../../components/dashboard/StatsCard';
-import RecentMatches from '../../../components/dashboard/RecentMatches';
-import RunMatchingButton from '../../../components/dashboard/RunMatchingButton';
+import { useAuth } from '../../contexts/AuthContext';
+import Header from '../../components/layout/Header';
+import Footer from '../../components/layout/Footer';
+import StatsCard from '../../components/dashboard/StatsCard';
+import RecentMatches from '../../components/dashboard/RecentMatches';
+import RunMatchingButton from '../../components/dashboard/RunMatchingButton';
 
 export default function Dashboard() {
   const { user } = useAuth();
