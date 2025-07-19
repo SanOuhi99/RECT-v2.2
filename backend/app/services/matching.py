@@ -41,3 +41,18 @@ class MatchingService:
     async def create_match(self, match_data: MatchCreate) -> Match:
         """Create a new property match record"""
         return await self.match_repo.create_match(match_data)
+        # backend/app/services/matching.py
+    async def match_properties(self, client_requirements):
+        properties = await self.property_repo.get_all()
+        
+        matches = []
+        for property in properties:
+            score = self.calculate_match_score(property, client_requirements)
+            if score >= self.MIN_MATCH_SCORE:
+                matches.append({
+                    'property': property,
+                    'score': score,
+                    'match_reasons': self.get_match_reasons(property, client_requirements)
+                })
+        
+        return sorted(matches, key=lambda x: x['score'], reverse=True)
