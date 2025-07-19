@@ -14,6 +14,6 @@ COPY package*.json ./
 RUN npm install --only=production && npm cache clean --force
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/public ./public || true
-COPY --from=builder /app/next.config.js ./next.config.js 2>/dev/null || true
+COPY --from=builder /app/next.config.js ./next.config.js
 EXPOSE $PORT
 CMD ["npm", "start"]
