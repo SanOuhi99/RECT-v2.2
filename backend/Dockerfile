@@ -19,6 +19,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the entire project
 COPY . .
 
-# Railway automatically sets PORT environment variable
-# Use uvicorn to run the FastAPI app with proper Railway configuration
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "$PORT"]
+# Make sure the app directory exists and has the right permissions
+RUN ls -la /app/ && ls -la /app/app/ && chmod +x /app/app/main.py
+
+# Use absolute path to be sure
+CMD ["python", "/app/main.py"]
