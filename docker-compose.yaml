@@ -1,0 +1,78 @@
+version: '3.8'
+
+services:
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://backend:8000
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    depends_on:
+      - backend
+    networks:
+      - realestate-network
+
+  backend:
+    build: ./backend
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://postgres:password@db:5432/realestate
+      - REDIS_URL=redis://redis:6379/0
+      - SECRET_KEY=your-secret-key
+      - ALGORITHM=HS256
+      - ACCESS_TOKEN_EXPIRE_MINUTES=1440
+    volumes:
+      - ./backend:/app
+      - /app/__pycache__
+    depends_on:
+      - db
+      - redis
+    networks:
+      - realestate-network
+
+  worker:
+    build: ./worker
+    environment:
+      - REDIS_URL=redis://redis:6379/0
+      - DATABASE_URL=postgresql://postgres:password@db:5432/realestate
+    volumes:
+      - ./worker:/app
+      - ./scripts:/app/scripts
+      - /app/__pycache__
+    depends_on:
+      - redis
+      - db
+    networks:
+      - realestate-network
+
+  db:
+    image: postgres:13
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=realestate
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - realestate-network
+
+  redis:
+    image: redis:6
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - realestate-network
+
+volumes:
+  postgres_data:
+  redis_data:
+
+networks:
+  realestate-network:
+    driver: bridge

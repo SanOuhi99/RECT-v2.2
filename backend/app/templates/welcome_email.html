@@ -1,0 +1,15 @@
+<!-- backend/app/templates/welcome_email.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Welcome to Real Estate CRM</title>
+</head>
+<body>
+    <h1>Welcome {{ user.full_name }}!</h1>
+    <p>Your account has been successfully created.</p>
+    <p>Email: {{ user.email }}</p>
+    <p>
+        <a href="{{ activation_link }}">Activate your account</a>
+    </p>
+</body>
+</html>

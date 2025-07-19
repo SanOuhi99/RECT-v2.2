@@ -1,0 +1,87 @@
+[
+    {
+        "id": "1234",
+        "name": "hassan",
+        "email": "hassa@gmail.com",
+        "password": "hashed_password",
+        "token": "fewgwerhswtehhwt",
+        "company_code": "WWSZ1HWOXQ7OTHTBX28LZE89PH3DIDJPPALXXFONOFEVA1HC53",
+        "license_number": "RE12345678",
+        "states_counties": [
+            {
+                "state_name": "CT",
+                "state_FIPS": 9,
+                "counties": [
+                    {
+                        "county_name": "Fairfield",
+                        "county_FIPS": 9001
+                    },
+                    {
+                        "county_name": "Hartford",
+                        "county_FIPS": 9003
+                    },
+                    {
+                        "county_name": "Litchfield",
+                        "county_FIPS": 9005
+                    },
+                    {
+                        "county_name": "Middlesex",
+                        "county_FIPS": 9007
+                    },
+                    {
+                        "county_name": "New Haven",
+                        "county_FIPS": 9009
+                    },
+                    {
+                        "county_name": "New London",
+                        "county_FIPS": 9011
+                    },
+                    {
+                        "county_name": "Tolland",
+                        "county_FIPS": 9013
+                    },
+                    {
+                        "county_name": "Windham",
+                        "county_FIPS": 9015
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "hicham",
+        "email": "hichamlaachiri@gmail.com",
+        "token": "zxcvbnm,asdfghjkl",
+        "company_code": "zxcvbnm",
+        "states_counties": [
+            {
+                "state_name": "WI",
+                "state_FIPS": 55,
+                "counties": [
+                    {
+                        "county_name": "Bayfield",
+                        "county_FIPS": 55007
+                    },
+                    {
+                        "county_name": "Clark",
+                        "county_FIPS": 55019
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "email": "kazmouhi.malak@gmail.com",
+        "password": "qwert",
+        "company_code": "WWSZ1HWOXQ7OTHTBX28LZE89PH3DIDJPPALXXFONOFEVA1HC53",
+        "name": "hassan kazmouhi",
+        "phone": "0652571213"
+    },
+    {
+        "email": "malak@gmail.com",
+        "password": "qwert",
+        "company_code": "WWSJPPALXXFONOFEVA1HC53",
+        "name": "kazmouhi",
+        "phone": "0652571213"
+    }
+]

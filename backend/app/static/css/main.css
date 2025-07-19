@@ -1,0 +1,18 @@
+/* backend/app/static/css/main.css */
+:root {
+    --primary-color: #4f46e5;
+    --secondary-color: #10b981;
+    --error-color: #ef4444;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    line-height: 1.6;
+    color: #333;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
