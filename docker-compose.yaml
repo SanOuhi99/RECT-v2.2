@@ -25,6 +25,13 @@ services:
       - SECRET_KEY=your-secret-key
       - ALGORITHM=HS256
       - ACCESS_TOKEN_EXPIRE_MINUTES=1440
+      - POOL_SIZE=10
+      - MAX_OVERFLOW=5
+    deploy:
+      resources:
+        limits:
+          cpus: '5.5'
+          memory: 5120M
     volumes:
       - ./backend:/app
       - /app/__pycache__
