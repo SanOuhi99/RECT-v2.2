@@ -20,5 +20,6 @@ class User(Base):
     })
     last_login = Column(DateTime)
     properties = relationship("Property", back_populates="owner")
+    clients = relationship("Client", back_populates="agent")
     company = relationship("Company", back_populates="users")
     matches = relationship("Match", back_populates="user")
