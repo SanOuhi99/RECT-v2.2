@@ -21,3 +21,10 @@ export async function signup(userData) {
 export async function getCurrentUser() {
   return fetcher('/api/v1/auth/me');
 }
+export async function refreshToken() {
+  const response = await api.post('/auth/refresh');
+  if (response.data?.access_token) {
+    localStorage.setItem('access_token', response.data.access_token);
+  }
+  return response;
+}
