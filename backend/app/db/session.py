@@ -6,7 +6,7 @@ from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 from app.core.config import settings
 
 engine = create_async_engine(
-    os.getenv("DATABASE_URL").replace("postgres://", "postgresql+asyncpg://"),
+    DATABASE_URL = os.getenv("DATABASE_URL").replace("postgres://", "postgresql+asyncpg://"),
     pool_size=15,
     max_overflow=5,
     pool_timeout=30,
