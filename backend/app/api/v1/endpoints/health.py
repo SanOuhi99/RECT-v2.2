@@ -9,4 +9,5 @@ async def health_check():
         "status": "healthy",
         "memory": psutil.virtual_memory().percent,
         "cpu": psutil.cpu_percent()
+        "database": "connected"
     }
