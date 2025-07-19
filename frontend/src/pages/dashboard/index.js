@@ -4,7 +4,7 @@ import useSWR from 'swr';
 import { useAuth } from '../../contexts/AuthContext';
 import Header from '../../components/layout/Header';
 import Footer from '../../components/layout/Footer';
-import StatsCard from '../../components/dashboard/StatsCard.jsx';
+import StatsCard from '../../components/dashboard/StatsCard';
 import RecentMatches from '../../components/dashboard/RecentMatches';
 import RunMatchingButton from '../../components/dashboard/RunMatchingButton';
 
