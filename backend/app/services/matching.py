@@ -66,9 +66,24 @@ class MatchingService:
         return await self.match_repo.create_match(match_data)
 
     # Placeholder match logic – to be implemented
-    def calculate_match_score(self, property, client_requirements) -> float:
-        # Implement actual scoring logic here
-        return 0.8  # Example static score
+    def calculate_match_score(self, property, requirements):
+        score = 0.0
+        
+        # Price match (40% weight)
+        price_match = 1 - (abs(property.price - requirements.target_price) / requirements.target_price)
+        score += price_match * 0.4
+        
+        # Location match (30% weight)
+        score += 0.3 if property.location == requirements.location else 0
+        
+        # Features match (30% weight)
+        feature_matches = sum(
+            1 for feature in requirements.features 
+            if feature in property.features
+        ) / len(requirements.features)
+        score += feature_matches * 0.3
+        
+        return min(max(score, 0), 1)  # Clamp between 0-1
 
     def get_match_reasons(self, property, client_requirements) -> List[str]:
         # Implement actual reason extraction logic here
