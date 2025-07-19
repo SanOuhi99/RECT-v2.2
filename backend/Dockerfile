@@ -1,12 +1,24 @@
-FROM python:3.9-slim
+FROM python:3.11-slim
 
-# Set working directory to /backend
-WORKDIR /backend
+# Set environment variables
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
 
-# Copy only backend files
-COPY ./backend/requirements.txt .
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    gcc \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set work directory
+WORKDIR /app
+
+# Copy requirements and install Python dependencies
+COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY ./backend .
+# Copy the entire project
+COPY . .
 
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+# Railway automatically sets PORT environment variable
+# Use uvicorn to run the FastAPI app with proper Railway configuration
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "$PORT"]
