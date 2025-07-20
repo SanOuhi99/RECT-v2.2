@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from fastapi.security import OAuth2PasswordBearer
 from typing import Optional
 
-from schemas.task import TaskStatus
+from db.schemas.task import TaskStatus
 from services.matching import MatchingService
 from db.session import get_db
 from core.security import get_current_user
