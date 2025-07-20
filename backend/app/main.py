@@ -1,5 +1,20 @@
+# Fix 2: Update backend/app/main.py
+
 import os
+import sys
 import logging
+from pathlib import Path
+
+# Fix import path issues
+current_dir = Path(__file__).parent
+backend_dir = current_dir.parent
+project_root = backend_dir.parent
+
+# Add paths to sys.path
+sys.path.insert(0, str(current_dir))
+sys.path.insert(0, str(backend_dir))
+sys.path.insert(0, str(project_root))
+
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.trustedhost import TrustedHostMiddleware
@@ -8,12 +23,39 @@ from slowapi import Limiter, _rate_limit_exceeded_handler
 from slowapi.util import get_remote_address
 from slowapi.middleware import SlowAPIMiddleware
 from slowapi.errors import RateLimitExceeded
-import sentry_sdk
-from sentry_sdk.integrations.fastapi import FastApiIntegration
-from sentry_sdk.integrations.sqlalchemy import SqlalchemyIntegration
 
-from api.v1.endpoints import auth, onboarding, dashboard, tasks
-from core.config import settings
+# Import your modules with error handling
+try:
+    from api.v1.endpoints import auth, onboarding, dashboard, tasks
+    from core.config import settings
+except ImportError as e:
+    logging.error(f"Import error: {e}")
+    # Try alternative import paths
+    try:
+        from app.api.v1.endpoints import auth, onboarding, dashboard, tasks
+        from app.core.config import settings
+    except ImportError as e2:
+        logging.error(f"Alternative import also failed: {e2}")
+        raise
+
+# Optional Sentry for error tracking
+try:
+    if os.getenv("SENTRY_DSN"):
+        import sentry_sdk
+        from sentry_sdk.integrations.fastapi import FastApiIntegration
+        from sentry_sdk.integrations.sqlalchemy import SqlalchemyIntegration
+        
+        sentry_sdk.init(
+            dsn=os.getenv("SENTRY_DSN"),
+            integrations=[
+                FastApiIntegration(auto_enabling_integrations=False),
+                SqlalchemyIntegration(),
+            ],
+            traces_sample_rate=0.1,
+            environment=os.getenv("ENVIRONMENT", "production"),
+        )
+except ImportError:
+    logging.warning("Sentry not available, skipping error tracking setup")
 
 # Production logging
 logging.basicConfig(
@@ -22,33 +64,25 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# Sentry for error tracking in production
-if os.getenv("SENTRY_DSN"):
-    sentry_sdk.init(
-        dsn=os.getenv("SENTRY_DSN"),
-        integrations=[
-            FastApiIntegration(auto_enabling_integrations=False),
-            SqlalchemyIntegration(),
-        ],
-        traces_sample_rate=0.1,
-        environment=os.getenv("ENVIRONMENT", "production"),
-    )
-
 # Rate limiting
 limiter = Limiter(key_func=get_remote_address, default_limits=["200/hour"])
 
 # Production CORS settings
 allowed_origins = [
-    "https://your-frontend-domain.up.railway.app",  # Replace with your actual frontend domain
-    "https://realestate-frontend-production.up.railway.app",
+    "https://*.railway.app",
+    "https://*.up.railway.app",
 ]
 
-# Add custom domain if you have one
+# Add custom domain if available
 if os.getenv("CUSTOM_DOMAIN"):
     allowed_origins.append(f"https://{os.getenv('CUSTOM_DOMAIN')}")
 
+# Add frontend URL if available
+if os.getenv("FRONTEND_URL"):
+    allowed_origins.append(os.getenv("FRONTEND_URL"))
+
 app = FastAPI(
-    title=settings.PROJECT_NAME,
+    title=getattr(settings, 'PROJECT_NAME', 'Real Estate CRM API'),
     version="2.2.0",
     docs_url="/docs" if os.getenv("ENVIRONMENT") != "production" else None,
     redoc_url="/redoc" if os.getenv("ENVIRONMENT") != "production" else None,
@@ -57,7 +91,7 @@ app = FastAPI(
 # Security middleware
 app.add_middleware(
     TrustedHostMiddleware, 
-    allowed_hosts=["*.railway.app", "*.up.railway.app", "localhost"]
+    allowed_hosts=["*.railway.app", "*.up.railway.app", "localhost", "127.0.0.1"]
 )
 
 app.add_middleware(SlowAPIMiddleware)
@@ -84,11 +118,15 @@ async def global_exception_handler(request: Request, exc: Exception):
         content={"detail": "Internal server error"}
     )
 
-# Include routers
-app.include_router(auth.router, prefix=f"{settings.API_V1_STR}/auth", tags=["auth"])
-app.include_router(onboarding.router, prefix=f"{settings.API_V1_STR}/onboarding", tags=["onboarding"])
-app.include_router(dashboard.router, prefix=f"{settings.API_V1_STR}/dashboard", tags=["dashboard"])
-app.include_router(tasks.router, prefix=f"{settings.API_V1_STR}/tasks", tags=["tasks"])
+# Include routers with error handling
+try:
+    api_v1_str = getattr(settings, 'API_V1_STR', '/api/v1')
+    app.include_router(auth.router, prefix=f"{api_v1_str}/auth", tags=["auth"])
+    app.include_router(onboarding.router, prefix=f"{api_v1_str}/onboarding", tags=["onboarding"])
+    app.include_router(dashboard.router, prefix=f"{api_v1_str}/dashboard", tags=["dashboard"])
+    app.include_router(tasks.router, prefix=f"{api_v1_str}/tasks", tags=["tasks"])
+except Exception as e:
+    logger.error(f"Error including routers: {e}")
 
 @app.get("/")
 async def root():
@@ -97,12 +135,12 @@ async def root():
 @app.get("/health")
 async def health_check():
     try:
-        # Add database connectivity check here
         return {
             "status": "healthy",
             "service": "backend",
             "version": "2.2.0",
-            "environment": os.getenv("ENVIRONMENT", "production")
+            "environment": os.getenv("ENVIRONMENT", "production"),
+            "python_path": sys.path[:3]  # For debugging
         }
     except Exception as e:
         logger.error(f"Health check failed: {e}")
@@ -115,17 +153,20 @@ async def health_check():
 @app.on_event("startup")
 async def startup_event():
     logger.info("Backend service starting up...")
+    logger.info(f"Python path: {sys.path[:3]}")
+    logger.info(f"Current working directory: {os.getcwd()}")
 
 # Shutdown event  
 @app.on_event("shutdown")
 async def shutdown_event():
     logger.info("Backend service shutting down...")
 
+# For Railway deployment
 if __name__ == "__main__":
     import uvicorn
     port = int(os.environ.get("PORT", 8000))
     uvicorn.run(
-        "app.main:app",
+        "main:app",  # Changed from "app.main:app"
         host="0.0.0.0",
         port=port,
         workers=1,
