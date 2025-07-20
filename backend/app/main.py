@@ -1,7 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware import Middleware
-from fastapi.middleware.trustedhost import TrustedHostMiddleware
 from api.v1.endpoints import auth, onboarding, dashboard, tasks
 from core.config import settings
 from slowapi import Limiter, _rate_limit_exceeded_handler
@@ -37,10 +36,10 @@ app.state.limiter = limiter
 app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
 # Include API routers
-app.include_router(auth.router, prefix=settings.API_V1_STR, tags=["auth"])
-app.include_router(onboarding.router, prefix=settings.API_V1_STR, tags=["onboarding"])
-app.include_router(dashboard.router, prefix=settings.API_V1_STR, tags=["dashboard"])
-app.include_router(tasks.router, prefix=settings.API_V1_STR, tags=["tasks"])
+app.include_router(auth.router, prefix=settings.API_V1_STR + "/auth", tags=["auth"])
+app.include_router(onboarding.router, prefix=settings.API_V1_STR + "/onboarding", tags=["onboarding"])
+app.include_router(dashboard.router, prefix=settings.API_V1_STR + "/dashboard", tags=["dashboard"])
+app.include_router(tasks.router, prefix=settings.API_V1_STR + "/tasks", tags=["tasks"])
 
 @app.get("/")
 def read_root():
