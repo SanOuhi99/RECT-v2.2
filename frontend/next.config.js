@@ -4,7 +4,7 @@ const nextConfig = {
   swcMinify: true,
   
   // CRITICAL: Enable standalone output for Railway deployment
-  output: 'standalone',
+  //output: 'standalone',
   
   // Environment variables
   env: {
