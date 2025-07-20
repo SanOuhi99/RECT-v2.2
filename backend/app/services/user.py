@@ -1,8 +1,8 @@
 from typing import Optional
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.schemas.user import UserInDB, UserUpdate
-from app.db.repositories.user import UserRepository
+from schemas.user import UserInDB, UserUpdate
+from db.repositories.user import UserRepository
 
 class UserService:
     def __init__(self, db: AsyncSession):
