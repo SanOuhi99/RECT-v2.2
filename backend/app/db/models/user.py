@@ -1,6 +1,5 @@
 from sqlalchemy import Column, String, Boolean, Integer, ForeignKey, JSON
 from sqlalchemy.orm import relationship
-from datetime import datetime
 from db.models.base import Base
 
 class User(Base):
@@ -18,7 +17,7 @@ class User(Base):
         "email": True,
         "frequency": "weekly"
     })
-    last_login = Column(datetime)
+    last_login = Column(DateTime)
     properties = relationship("Property", back_populates="owner")
     clients = relationship("Client", back_populates="agent")
     company = relationship("Company", back_populates="users")
