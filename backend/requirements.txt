@@ -17,3 +17,4 @@ httpx==0.24.1
 pydantic[email]
 email-validator
 asyncpg==0.28.0
+slowapi
