@@ -1,7 +1,10 @@
-from pydantic import BaseSettings
+# backend/app/core/config.py - FIXED FOR PYDANTIC V2
+
+from pydantic_settings import BaseSettings  # CHANGED: Import from pydantic-settings
 from typing import Optional
 import logging
 from logging.config import dictConfig
+
 LOG_CONFIG = {
     "version": 1,
     "disable_existing_loggers": False,
@@ -43,8 +46,11 @@ class Settings(BaseSettings):
     
     REDIS_URL: str = "redis://redis:6379/0"
     
-    class Config:
-        env_file = ".env"
+    # Pydantic v2 configuration
+    model_config = {
+        "env_file": ".env",
+        "case_sensitive": True
+    }
 
 settings = Settings()
 
