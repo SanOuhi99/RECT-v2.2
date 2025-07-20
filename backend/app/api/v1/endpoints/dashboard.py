@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from fastapi.security import OAuth2PasswordBearer
 from typing import List
 
-from db.schemas.match import Match
+from db.schemas.match import MatchResponse
 from services.matching import MatchingService
 from db.session import get_db
 from core.security import get_current_user
@@ -10,7 +10,7 @@ from core.security import get_current_user
 router = APIRouter()
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="api/v1/auth/token")
 
-@router.get("/matches", response_model=List[Match])
+@router.get("/matches", response_model=List[MatchResponse])
 async def get_recent_matches(
     current_user: dict = Depends(get_current_user),
     db=Depends(get_db)
