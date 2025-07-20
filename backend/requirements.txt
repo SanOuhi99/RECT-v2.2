@@ -16,3 +16,4 @@ pytest-asyncio==0.21.0
 httpx==0.24.1
 pydantic[email]
 email-validator
+asyncpg==0.28.0
