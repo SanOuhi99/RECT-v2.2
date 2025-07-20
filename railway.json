@@ -1,27 +1,11 @@
 {
+  "$schema": "https://railway.app/railway.schema.json",
   "build": {
-    "backend": {
-      "root": "backend",
-      "steps": [
-        "pip install -r requirements.txt",
-        "alembic upgrade head"
-      ],
-      "startCommand": "uvicorn app.main:app --host 0.0.0.0 --port $PORT"
-    },
-    "frontend": {
-      "steps": [
-        "npm install",
-        "npm run build"
-      ],
-      "startCommand": "npm run start"
-    },
-    "worker": {
-      "startCommand": "celery -A worker worker --loglevel=info"
-    }
+    "builder": "NIXPACKS"
   },
   "deploy": {
-    "restartPolicy": {
-      "maxRetries": 3
-    }
+    "numReplicas": 1,
+    "restartPolicyType": "ON_FAILURE",
+    "restartPolicyMaxRetries": 10
   }
 }
