@@ -2,13 +2,13 @@ from typing import List
 from fastapi import HTTPException, status
 from celery.result import AsyncResult
 
-from app.db.repositories.user import UserRepository
-from app.db.repositories.matches import MatchRepository
-from app.db.repositories.property import PropertyRepository
-from app.db.repositories.client import ClientRepository
+from db.repositories.user import UserRepository
+from db.repositories.matches import MatchRepository
+from db.repositories.property import PropertyRepository
+from db.repositories.client import ClientRepository
 
-from app.schemas.match import Match, MatchCreate
-from app.tasks.matching import run_matching_task
+from schemas.match import Match, MatchCreate
+from tasks.matching import run_matching_task
 
 
 class MatchingService:
