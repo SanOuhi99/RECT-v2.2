@@ -6,11 +6,11 @@ from passlib.context import CryptContext
 from fastapi import HTTPException, status, Depends
 from fastapi.security import OAuth2PasswordBearer
 
-from app.db.repositories.user import UserRepository
-from app.db.repositories.company import CompanyRepository
-from app.schemas.user import UserCreate, UserInDB
-from app.core.config import settings
-from app.db.session import get_db
+from db.repositories.user import UserRepository
+from db.repositories.company import CompanyRepository
+from schemas.user import UserCreate, UserInDB
+from core.config import settings
+from db.session import get_db
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="api/v1/auth/token")
