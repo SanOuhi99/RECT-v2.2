@@ -4,8 +4,8 @@ import logging
 import os
 import sys
 
-from app.db.session import SessionLocal
-from app.services.matching import MatchingService
+from db.session import SessionLocal
+from services.matching import MatchingService
 
 # Configure logging
 logging.basicConfig(
