@@ -23,4 +23,5 @@ COPY . .
 RUN ls -la /app/ && ls -la /app/app/ && chmod +x /app/app/main.py
 
 # Use absolute path to be sure
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "$PORT"]
+WORKDIR /app
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
