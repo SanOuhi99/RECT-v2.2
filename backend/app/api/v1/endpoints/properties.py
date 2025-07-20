@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException
 from db.repositories.property import PropertyRepository
-from schemas.property import PropertyCreate, PropertyInDB
+from db.schemas.property import PropertyCreate, PropertyInDB
 
 router = APIRouter()
 
