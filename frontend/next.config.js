@@ -3,12 +3,17 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   
-  // CRITICAL: Enable standalone output for Docker
+  // CRITICAL: Enable standalone output for Railway deployment
   output: 'standalone',
   
   // Environment variables
   env: {
-    NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
+    NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000',
+  },
+
+  // Configure for Railway PORT environment variable
+  experimental: {
+    serverComponentsExternalPackages: [],
   },
 
   // API rewrites for production
@@ -42,6 +47,11 @@ const nextConfig = {
         ],
       },
     ]
+  },
+
+  // Image optimization
+  images: {
+    domains: ['localhost'],
   },
 }
 
