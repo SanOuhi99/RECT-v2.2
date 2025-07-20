@@ -9,6 +9,7 @@ psycopg2-binary
 asyncpg
 alembic
 pydantic[email]
+pydantic-settings
 celery[redis]
 redis
 httpx
