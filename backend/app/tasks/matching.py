@@ -15,7 +15,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 @shared_task(bind=True, name="run_property_matching")
-def run_property_matching(self, user_id: int):
+async def run_property_matching(self, user_id: int):
     """Celery task to run property matching for a specific user"""
     try:
         logger.info(f"Starting property matching task for user {user_id}")
