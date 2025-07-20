@@ -91,7 +91,7 @@ app = FastAPI(
 # Security middleware
 app.add_middleware(
     TrustedHostMiddleware, 
-    allowed_hosts=["*.railway.app", "*.up.railway.app", "localhost", "127.0.0.1"]
+    allowed_hosts=["*.railway.app", "*.up.railway.app", "localhost", "127.0.0.1","https://rectfront.up.railway.app"]
 )
 
 app.add_middleware(SlowAPIMiddleware)
@@ -164,7 +164,7 @@ async def shutdown_event():
 # For Railway deployment
 if __name__ == "__main__":
     import uvicorn
-    port = int(os.environ.get("PORT", 8000))
+    port = int(os.environ.get("PORT", 3000))
     uvicorn.run(
         "main:app",  # Changed from "app.main:app"
         host="0.0.0.0",
