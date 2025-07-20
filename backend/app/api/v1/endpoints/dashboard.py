@@ -2,10 +2,10 @@ from fastapi import APIRouter, Depends, HTTPException
 from fastapi.security import OAuth2PasswordBearer
 from typing import List
 
-from app.schemas.match import Match
-from app.services.matching import MatchingService
-from app.db.session import get_db
-from app.core.security import get_current_user
+from schemas.match import Match
+from services.matching import MatchingService
+from db.session import get_db
+from core.security import get_current_user
 
 router = APIRouter()
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="api/v1/auth/token")
