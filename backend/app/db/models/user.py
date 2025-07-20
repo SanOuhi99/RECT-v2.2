@@ -18,7 +18,7 @@ class User(Base):
         "email": True,
         "frequency": "weekly"
     })
-    last_login = Column(DateTime)
+    last_login = Column(datetime)
     properties = relationship("Property", back_populates="owner")
     clients = relationship("Client", back_populates="agent")
     company = relationship("Company", back_populates="users")
