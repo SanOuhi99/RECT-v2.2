@@ -16,7 +16,7 @@ from sqlalchemy import (
 )
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
-from db.base_class import Base  # your declarative base
+from db.models.base import Base
 
 
 class MatchStatus(str, Enum):
