@@ -1,27 +1,28 @@
+# Use official Python base image
 FROM python:3.11-slim
 
-# Set environment variables
+# Prevent Python from writing .pyc files and enable unbuffered logging
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
+# Set working directory
+WORKDIR /app
+
 # Install system dependencies
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get install -y --no-install-recommends \
     gcc \
+    libpq-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Set work directory
-WORKDIR /app
-
-# Copy requirements and install Python dependencies
+# Install Python dependencies
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --upgrade pip && pip install --no-cache-dir -r requirements.txt
 
-# Copy the entire project
+# Copy project files
 COPY . .
 
-# Make sure the app directory exists and has the right permissions
-RUN ls -la /app/ && ls -la /app/app/ && chmod +x /app/app/main.py
+# Expose the FastAPI port
+EXPOSE 8000
 
-# Use absolute path to be sure
-WORKDIR /app
+# Run the app with uvicorn
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
