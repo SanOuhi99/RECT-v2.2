@@ -7,7 +7,7 @@ from db.repositories.matches import MatchRepository
 from db.repositories.property import PropertyRepository
 from db.repositories.client import ClientRepository
 
-from db.schemas.match import Match, MatchCreate
+from db.schemas.match import MatchResponse, MatchCreate
 from tasks.matching import run_matching_task
 
 
