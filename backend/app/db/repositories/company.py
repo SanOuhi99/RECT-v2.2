@@ -2,8 +2,8 @@ from typing import Optional
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.db.models.company import Company
-from app.schemas.company import CompanyCreate, CompanyInDB
+from models.company import Company
+from schemas.company import CompanyCreate, CompanyInDB
 
 class CompanyRepository:
     def __init__(self, db: AsyncSession):
