@@ -3,7 +3,7 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from db.models.user import User
-from schemas.user import UserCreate, UserInDB
+from db.schemas.user import UserCreate, UserInDB
 
 class UserRepository:
     def __init__(self, db: AsyncSession):
