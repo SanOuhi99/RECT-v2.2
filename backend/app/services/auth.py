@@ -8,7 +8,7 @@ from fastapi.security import OAuth2PasswordBearer
 
 from db.repositories.user import UserRepository
 from db.repositories.company import CompanyRepository
-from schemas.user import UserCreate, UserInDB
+from db.schemas.user import UserCreate, UserInDB
 from core.config import settings
 from db.session import get_db
 
