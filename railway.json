@@ -1,22 +1,22 @@
 {
-  services:
+  "services":
   {
-    frontend:
+    "frontend":
       {
-        build: frontend
-        start: npx serve -s dist -l $PORT   # or whatever your build produces
-        healthcheckPath: "/"
+        "build": "frontend"
+        "start": "npx serve -s dist -l $PORT   # or whatever your build produces"
+        "healthcheckPath": "/"
       },
-    backend:
+    "backend":
       {
-        build: backend
-        start: uvicorn main:app --host 0.0.0.0 --port $PORT
-        healthcheckPath: "/health"
+        "build": "backend"
+        "start": "uvicorn main:app --host 0.0.0.0 --port $PORT"
+        "healthcheckPath": "/health"
       },
-    worker:
+    "worker":
       {
-        build: worker
-        start: celery -A tasks worker --loglevel=info
+        "build": "worker"
+        "start": "celery -A tasks worker --loglevel=info"
       }
     }
 }
