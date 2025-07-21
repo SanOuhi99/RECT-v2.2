@@ -1,4 +1,3 @@
-# https://railway.app/docs/deploy/config-as-code
 services:
   frontend:
     build: frontend
