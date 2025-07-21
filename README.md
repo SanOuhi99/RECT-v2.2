@@ -1,27 +1,32 @@
-# RECT v3.0 - Real Estate CRM Tracker
+# Real Estate CRM Tracker
 
-Production-ready real estate CRM with automated property matching.
-
+Automated property matching system for real estate professionals.
 ## Features
-- User authentication & authorization
-- Property management
-- Automated matching system
-- Dashboard analytics
+
+- CRM owner onboarding with company verification
+- Property matching automation
+- Background task processing
+- Dashboard with analytics
+
 - Email notifications
 
+## Development Setup
+
+1. Clone the repository
+2. Create `.env` files in each directory based on `.env.example`
+3. Run `docker-compose up --build`
+
+## Services
+
+- Frontend: http://localhost:3000
+- Backend API: http://localhost:8000
+- API Docs: http://localhost:8000/docs
+
 ## Deployment
-- Frontend: Railway
-- Backend: Railway  
-- Database: Railway PostgreSQL
 
-## Development
-```bash
-# Frontend
-cd frontend
-npm install
-npm run dev
+1. Set up production environment variables
+2. Run `docker-compose -f docker-compose.prod.yml up --build`
 
-# Backend
-cd backend
-pip install -r requirements.txt
-uvicorn main:app --reload
+## Environment Variables
+
+See `.env.example` files in each directory for required variables.
